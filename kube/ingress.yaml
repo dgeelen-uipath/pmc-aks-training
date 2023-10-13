@@ -1,0 +1,42 @@
+{
+    "apiVersion": "networking.k8s.io/v1",
+    "kind": "Ingress",
+    "metadata": {
+        "name": "todo-ingress",
+        "annotations": {
+            "cert-manager.io/cluster-issuer": "letsencrypt-prod"
+        }
+    },
+    "spec": {
+        "ingressClassName": "nginx",
+        "rules": [
+            {
+                "host": "simon-sasburg.dev.pmc.internal.uipath.systems",
+                "http": {
+                    "paths": [
+                        {
+                            "path": "/",
+                            "pathType": "Prefix",
+                            "backend": {
+                                "service": {
+                                    "name": "todo-service",
+                                    "port": {
+                                        "number": 80
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "tls": [
+            {
+                "hosts": [
+                    "simon-sasburg.dev.pmc.internal.uipath.systems"
+                ],
+                "secretName": "todo-secret"
+            }
+        ]
+    }
+}
