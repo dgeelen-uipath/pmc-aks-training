@@ -8,7 +8,7 @@
     }
   },
   "spec": {
-    "replicas": 1,
+    "replicas": 3,
     "selector": {
       "matchLabels": {
         "app": "todo"
@@ -24,7 +24,7 @@
         "containers": [
           {
             "name": "todo",
-            "image": "pmcakstraining.azurecr.io/simon_daniel/todo:0.0.6",
+            "image": "pmcakstraining.azurecr.io/simon_daniel/todo:0.0.9",
             "ports": [
               {
                 "containerPort": 3000

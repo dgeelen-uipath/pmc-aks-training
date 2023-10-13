@@ -11,6 +11,16 @@ app.use(bodyParser.json()); // And this
 const todos = {};
 var nextId = 0;
 
+function log_endpoint(url)
+{
+  console.log(`[${new Date()}] [${process.env["HOSTNAME"]}] accessing: ${url}`)
+}
+
+app.use(function(req, res, next) {
+  log_endpoint(req.path);
+  next();
+});
+
 // Defining request response in root URL (/)
 app.get("/", function(req, res) {
     res.set('Content-Type', 'text/html');
