@@ -1,4 +1,5 @@
 // Importing express.js module 
+const fs = require("fs"); 
 const express = require("express"); 
 const bodyParser = require("body-parser"); // Add this
 
@@ -9,6 +10,12 @@ app.use(bodyParser.json()); // And this
 
 const todos = {};
 var nextId = 0;
+
+// Defining request response in root URL (/)
+app.get("/", function(req, res) {
+    res.set('Content-Type', 'text/html');
+    res.send(fs.readFileSync('./index.html'));
+});
 
 // Defining request response in root URL (/)
 app.get("/api/todo", function(req, res) {

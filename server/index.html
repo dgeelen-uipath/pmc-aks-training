@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+    
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    function TodoApp() {
+      const [todos, setTodos] = useState([]);
+      const [newTodo, setNewTodo] = useState("");
+
+      useEffect(() => {
+        axios.get("/api/todo")
+          .then(res => {
+            setTodos(res.data);
+          });
+      }, []);
+
+      function addTodo() {
+        const todo = { title: newTodo };
+        axios.post("/api/todo", todo)
+          .then(res => {
+            setTodos([...todos, { id: res.data, title: newTodo }]);
+            setNewTodo("");
+          });
+      }
+
+      function deleteTodo(id){
+        axios.delete(`/api/todo/${id}`)
+          .then(() => {
+            setTodos(todos.filter(todo => todo.id !== id));
+          });
+      }
+
+      return (
+        <div>
+          <h1>Todo App</h1>
+          <input 
+            value={newTodo} 
+            onChange={e => setNewTodo(e.target.value)} 
+            type="text" 
+            placeholder="Add a todo" 
+          />
+          <button onClick={addTodo}>Add Todo</button>
+          <ul>
+            {todos.map(todo => (
+              <li key={todo.id}>
+                {todo.title}
+                <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+    ReactDOM.render( <TodoApp />, document.getElementById('root') );
+    </script>
+  </body>
+</html>

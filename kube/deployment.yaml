@@ -1,0 +1,38 @@
+{
+  "apiVersion": "apps/v1",
+  "kind": "Deployment",
+  "metadata": {
+    "name": "todo-deployment",
+    "labels": {
+      "app": "todo"
+    }
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "matchLabels": {
+        "app": "todo"
+      }
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "todo"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "todo",
+            "image": "pmcakstraining.azurecr.io/simon_daniel/todo:0.0.6",
+            "ports": [
+              {
+                "containerPort": 3000
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
