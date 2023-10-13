@@ -15,11 +15,23 @@
                 "http": {
                     "paths": [
                         {
-                            "path": "/",
+                            "path": "/api",
                             "pathType": "Prefix",
                             "backend": {
                                 "service": {
                                     "name": "todo-service",
+                                    "port": {
+                                        "number": 80
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "path": "/",
+                            "pathType": "Prefix",
+                            "backend": {
+                                "service": {
+                                    "name": "todo-fe-service",
                                     "port": {
                                         "number": 80
                                     }

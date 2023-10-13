@@ -2,29 +2,29 @@
   "apiVersion": "apps/v1",
   "kind": "Deployment",
   "metadata": {
-    "name": "todo-deployment",
+    "name": "todo-fe-deployment",
     "labels": {
-      "app": "todo"
+      "app": "todo-fe"
     }
   },
   "spec": {
-    "replicas": 1,
+    "replicas": 2,
     "selector": {
       "matchLabels": {
-        "app": "todo"
+        "app": "todo-fe"
       }
     },
     "template": {
       "metadata": {
         "labels": {
-          "app": "todo"
+          "app": "todo-fe"
         }
       },
       "spec": {
         "containers": [
           {
-            "name": "todo",
-            "image": "pmcakstraining.azurecr.io/simon_daniel/todo:0.0.10",
+            "name": "todo-fe",
+            "image": "pmcakstraining.azurecr.io/simon_daniel/todo-fe:0.0.10",
             "ports": [
               {
                 "containerPort": 3000

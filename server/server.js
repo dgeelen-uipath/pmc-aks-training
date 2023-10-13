@@ -22,12 +22,6 @@ app.use(function(req, res, next) {
 });
 
 // Defining request response in root URL (/)
-app.get("/", function(req, res) {
-    res.set('Content-Type', 'text/html');
-    res.send(fs.readFileSync('./index.html'));
-});
-
-// Defining request response in root URL (/)
 app.get("/api/todo", function(req, res) {
   res.send(JSON.stringify(Object.keys(todos).map(x => todos[x])));
 });
