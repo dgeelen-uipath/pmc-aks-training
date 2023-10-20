@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-backend
+spec:
+  selector:
+    matchLabels:
+      app: todo-backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: todo-backend
+    spec:
+      containers:
+        - name: todo-backend
+          image: pmcakstraining.azurecr.io/simon_daniel/todo:0.0.15
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - mountPath: /data
+              name: todo-backend-data
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+      tolerations:
+        - key: purpose
+          operator: Equal
+          value: todo
+          effect: NoSchedule
+      nodeSelector:
+        app: todo
+      volumes:
+        - name: todo-backend-data
+          persistentVolumeClaim:
+            claimName: todo-backend-pvc

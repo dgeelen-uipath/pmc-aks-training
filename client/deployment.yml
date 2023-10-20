@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-frontend
+spec:
+  selector:
+    matchLabels:
+      app: todo-frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: todo-frontend
+    spec:
+      containers:
+        - name: todo-frontend
+          image: pmcakstraining.azurecr.io/simon_daniel/todo-fe:0.0.10
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: 500m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+      tolerations:
+        - key: purpose
+          operator: Equal
+          value: todo
+          effect: NoSchedule
+      nodeSelector:
+        app: todo
