@@ -8,7 +8,7 @@
     }
   },
   "spec": {
-    "replicas": 1,
+    "replicas": 3,
     "selector": {
       "matchLabels": {
         "app": "todo"
@@ -24,12 +24,26 @@
         "containers": [
           {
             "name": "todo",
-            "image": "pmcakstraining.azurecr.io/simon_daniel/todo:0.0.10",
+            "image": "pmcakstraining.azurecr.io/simon_daniel/todo:0.0.15",
             "ports": [
               {
                 "containerPort": 3000
               }
+            ],
+            "volumeMounts": [
+              {
+                "mountPath": "/data",
+                "name": "todo-db"
+              }
             ]
+          }
+        ],
+        "volumes": [
+          {
+            "name": "todo-db",
+            "persistentVolumeClaim": {
+              "claimName": "todo-db"
+            }
           }
         ]
       }

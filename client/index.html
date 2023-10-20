@@ -14,13 +14,50 @@
     function TodoApp() {
       const [todos, setTodos] = useState([]);
       const [newTodo, setNewTodo] = useState("");
+      const [delay, setDelay] = useState(100);
+      const [history, setHistory] = useState({ successes: 0, failures: 0, list: [] });
+      const [ddos, setDdos] = useState(false);
+      const [timer, setTimer] = useState(null);
 
-      useEffect(() => {
+      function update()
+      {
         axios.get("/api/todo")
           .then(res => {
+            setHistory(v => ({ ...v, successes: v.successes + 1 }));
             setTodos(res.data);
+          })
+          .catch(e => {
+            setHistory(v => ({ ...v, failures: v.failures + 1 }));
           });
+      }
+
+      useEffect(() => {
+        update();
       }, []);
+
+      useEffect(() => {
+        setInterval(() => {
+          setHistory(v => {
+            var total = v.successes + v.failures;
+            var rate = total > 0 ? v.successes / total : null;
+            return {
+              successes: 0,
+              failures: 0,
+              list: [rate, ...v.list.slice(0, 5)],
+            }
+          });
+        }, 1000);
+      }, []);
+
+      useEffect(() => {
+        if (timer)
+          clearInterval(timer);
+        if (ddos) {
+          setTimer(setInterval(() => update(), delay));
+        } else {
+          setTimer(null);
+        }
+      }, [ddos]);
 
       function addTodo() {
         const todo = { title: newTodo };
@@ -48,6 +85,14 @@
             placeholder="Add a todo" 
           />
           <button onClick={addTodo}>Add Todo</button>
+          <h1>DDOS</h1>
+          <input value={delay} onChange={e => setDelay(e.target.value)} type="number"/>
+          <button onClick={() => setDdos(true)} enabled={!ddos}>Start</button>
+          <button onClick={() => setDdos(false)} enabled={ddos}>Stop</button>
+          <h1>History</h1>
+          {history.successes}/{history.failures}
+          {JSON.stringify(history.list)}
+          <h1>Todos</h1>
           <ul>
             {todos.map(todo => (
               <li key={todo.id}>
