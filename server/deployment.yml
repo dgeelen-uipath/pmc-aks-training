@@ -35,6 +35,17 @@ spec:
           effect: NoSchedule
       nodeSelector:
         app: todo
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - todo-backend
+              topologyKey: topology.kubernetes.io/hostname
+
       volumes:
         - name: todo-backend-data
           persistentVolumeClaim:
