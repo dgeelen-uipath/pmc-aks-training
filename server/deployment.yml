@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: pmcakstraining.azurecr.io/simon_daniel/todo:0.0.15
+          image: pmcakstraining.azurecr.io/simon_daniel/todo:0.0.18
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
