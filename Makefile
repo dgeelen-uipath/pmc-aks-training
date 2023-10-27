@@ -13,6 +13,16 @@ all: $(DEPLOYED)
 	@$(kubectl) apply -f $<
 	@touch $@
 
+list-resources:
+	@kubectl api-resources --namespaced=true --output=name \
+	| while read resource ; do \
+		echo "$${resource}:" ; \
+		kubectl \
+			get "$${resource}" \
+			--namespace daniel-geelen \
+		| sed 's/^/	/' \
+	; done
+
 clean:
 	@rm -rf .deployments/
 	@echo "> Cleaning up all resources in namespace 'daniel-geelen'..."
