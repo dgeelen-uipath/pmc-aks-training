@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: pmcakstraining.azurecr.io/simon_daniel/todo:0.0.18
+          image: pmcakstraining.azurecr.io/simon_daniel/todo:0.0.25
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
@@ -46,6 +46,7 @@ spec:
                       - todo-backend
               topologyKey: topology.kubernetes.io/hostname
 
+      serviceAccountName: todo-backend
       volumes:
         - name: todo-backend-data
           persistentVolumeClaim:
