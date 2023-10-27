@@ -24,7 +24,7 @@
         "containers": [
           {
             "name": "todo",
-            "image": "pmcakstraining.azurecr.io/simon_daniel/todo:0.0.15",
+            "image": "pmcakstraining.azurecr.io/simon_daniel/todo:0.0.18",
             "ports": [
               {
                 "containerPort": 3000
@@ -38,7 +38,7 @@
             ],
             "resources": {
               "limits": {
-                "cpu": "500m",
+                "cpu": "1000m",
                 "memory": "256Mi"
               },
               "requests": {

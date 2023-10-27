@@ -24,7 +24,7 @@
         "containers": [
           {
             "name": "todo-fe",
-            "image": "pmcakstraining.azurecr.io/simon_daniel/todo-fe:0.0.10",
+            "image": "pmcakstraining.azurecr.io/simon_daniel/todo-fe:0.0.16",
             "ports": [
               {
                 "containerPort": 3000

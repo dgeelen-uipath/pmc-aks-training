@@ -83,6 +83,20 @@ app.delete("/api/todo/:id", function(req, res) {
   }
 });
 
+app.post("/api/pi", function(req, res) {
+  var count = req.body.count || 1000000;
+  var inside = 0;
+  for (var c = 0; c < count; ++c) {
+    var x = crypto.randomInt(1000000) / 1000000;
+    var y = crypto.randomInt(1000000) / 1000000;
+    var z = Math.sqrt(x*x + y*y);
+    if (z < 1)
+      ++inside;    
+  }
+  
+  res.send(JSON.stringify(Math.sqrt(inside / count)));
+});
+
 // Launch listening server on port 3000
 app.listen(3000, function() {
   console.log("App listening on port 3000!");

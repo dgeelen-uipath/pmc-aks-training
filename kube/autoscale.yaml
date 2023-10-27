@@ -1,0 +1,33 @@
+{
+  "apiVersion": "autoscaling/v2",
+  "kind": "HorizontalPodAutoscaler",
+  "metadata": {
+    "name": "todo"
+  },
+  "spec": {
+    "scaleTargetRef": {
+      "kind": "Deployment",
+      "name": "todo-deployment",
+      "apiVersion": "apps/v1"
+    },
+    "minReplicas": 1,
+    "maxReplicas": 5,
+    "behaviour": {
+      "scaleDown": {
+        "stabilizationWindowSeconds": 45
+      }
+    },
+    "metrics": [
+      {
+        "type": "Resource",
+        "resource": {
+          "name": "cpu",
+          "target": {
+            "type": "Utilization",
+            "averageUtilization": 60
+          }
+        }
+      }
+    ]
+  }
+}
