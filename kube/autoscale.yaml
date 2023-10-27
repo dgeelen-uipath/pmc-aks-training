@@ -12,11 +12,6 @@
     },
     "minReplicas": 1,
     "maxReplicas": 5,
-    "behaviour": {
-      "scaleDown": {
-        "stabilizationWindowSeconds": 45
-      }
-    },
     "metrics": [
       {
         "type": "Resource",

@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-TAG=pmcakstraining.azurecr.io/simon_daniel/todo:0.0.18
+TAG=pmcakstraining.azurecr.io/simon_daniel/todo:0.0.25
 TAGFE=pmcakstraining.azurecr.io/simon_daniel/todo-fe:0.0.16
 
 #az login
@@ -13,3 +13,5 @@ docker push ${TAG}
 
 docker build client -t ${TAGFE}
 docker push ${TAGFE}
+
+kubectl apply -f kube

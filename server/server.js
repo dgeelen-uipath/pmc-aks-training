@@ -3,6 +3,7 @@ const fs = require("fs");
 const express = require("express"); 
 const bodyParser = require("body-parser"); // Add this
 const crypto = require('crypto');
+const http = require('https');
 
 // Creating an express.js application 
 const app = express(); 
@@ -47,6 +48,11 @@ app.get("/api/todo", function(req, res) {
     res.send(JSON.stringify(files.map(f => JSON.parse(fs.readFileSync(`${todoPath}/${f}`)))));
   });
 });
+
+app.get("/api/version", function(req, res) {
+  res.send(3);
+});
+
 
 app.get("/api/todo/:id", function(req, res) {
   const file = todoFile(req.params.id);
@@ -95,6 +101,40 @@ app.post("/api/pi", function(req, res) {
   }
   
   res.send(JSON.stringify(Math.sqrt(inside / count)));
+});
+
+app.get("/api/pods", function(req, res) {
+  var options = {
+    hostname: 'kubernetes.default.svc.cluster.local',
+    port: 443,
+    path: `/api/v1/namespaces/${fs.readFileSync('/var/run/secrets/kubernetes.io/serviceaccount/namespace', 'utf8')}/pods`,
+    method: 'GET',
+    headers: {
+        'Authorization': 'Bearer ' + fs.readFileSync('/var/run/secrets/kubernetes.io/serviceaccount/token', 'utf8')
+    },
+    rejectUnauthorized: false // This should only be false in local testing. In production, it should be 'true'
+  };
+
+  var kreq = http.request(options, (kres) => {
+      kres.setEncoding('utf8');
+      var allData = "";
+      
+      kres.on('data', (chunk) => {
+        allData += chunk;
+          console.log(`Received data: ${chunk}`);
+      });
+      
+      kres.on('end', () => {
+        res.status(200).send(allData);
+          console.log('No more data in response.');
+      })
+  });
+
+  kreq.on('error', (e) => {
+    console.error(`Problem with request: ${e.message}`);
+  });
+  
+  kreq.end();
 });
 
 // Launch listening server on port 3000

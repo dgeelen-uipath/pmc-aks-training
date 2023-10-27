@@ -21,10 +21,11 @@
         }
       },
       "spec": {
+        "serviceAccountName": "todo-account",
         "containers": [
           {
             "name": "todo",
-            "image": "pmcakstraining.azurecr.io/simon_daniel/todo:0.0.18",
+            "image": "pmcakstraining.azurecr.io/simon_daniel/todo:0.0.25",
             "ports": [
               {
                 "containerPort": 3000
